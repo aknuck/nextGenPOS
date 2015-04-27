@@ -9,6 +9,7 @@ import Store
 import Item
 import Payment
 import RentalTransaction
+import DbInteraction
 
 # Class POS serves as a public singleton accessor for __POS which is private
 class POS:
@@ -28,6 +29,7 @@ class POS:
 			#print self.__store.getName()
 			self.__num = 1 #need for the receipt, I guess it can incrememnt or something
 			self.currentTransaction = None
+			self.dbObj = DbInteraction.DbInteraction()
 			
 		def getId(self):
 			return self.__PID
@@ -282,9 +284,6 @@ class POS:
 #					print "exchange money\nReceipt:"
 #					print self.getTransactionReceipt()
 		
-		def addItemToTransaction (self, item):
-			self.currentTransaction.addItem(item)
-		
 		#def addItemToTransaction (self, id):
 
 		#    item = self.__queryDBForItem(id)
@@ -323,12 +322,25 @@ class POS:
 		def getTransactionItems(self):
 			return self.currentTransaction.getItems()
 		
+		def addItemToTransaction(self,item):
+			self.currentTransaction.addItem(item)
+			self.dbObj.decreaseQuantity(item.getID(), 1)
+		def addToInventory(self):
+			self.dbObj.addItem(Item.Item(1, "BALLS", 5.00, 0), 1)
+		def removeFromInventory(self):
+			self.dbObj.removeItem(Item.Item(12, "BALLS", 5.00, 0))
+		def increaseQuantity(self):
+			self.dbObj.increaseQuantity(1,1)
+		def decreaseQuantity(self):
+			self.dbObj.decreaseQuantity(1,1)
 		def getTransactionReceipt(self):
-			return self.currentTransaction.getReceipt()
-		
+			return self.currentTransaction.getReceipt()	
+
+		def completeStuff(self):
+			self.dbObj.newTransaction(self.currentTransaction.getID(),self.__currEmployee.getId(), self.currentTransaction.getType(), self.currentTransaction.getCurrentTotal())
+
 		def setPayment(self,payment):
 			self.currentTransaction.setPayment(payment)
-
 		def getCurrentTransaction(self):
 			return self.currentTransaction
 		

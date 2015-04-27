@@ -24,6 +24,7 @@ class Transaction:
 		self.taxRate = store.getTax() #tax rate may change based on state, set to 0 if for item without tax (e.g. food)
 		self.runningTotal = 0.00
 		self.payment = None #set later in the transaction, after being called by POS with the payment object being passed
+		self.type = "merp"
 		
 
 	#adds an item to the transaction
@@ -138,3 +139,13 @@ Cashier: '''+self.cashier.getName()+'''
 	#change payment method. really just calls getPayment again, but that works for now
 	def changePayment(self):
 		self.getPayment(self)
+
+	#get Transaction ID
+	def getID(self):
+		return self.transactionID
+
+	def setType(self, tt):
+		self.type = tt
+		
+	def getType(self):
+		return self.type
