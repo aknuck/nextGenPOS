@@ -110,6 +110,7 @@ class PaymentWindow(Frame):
 
 		# Text Field Object, used in the submission function
 		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), style='white.TLabel',font=self.font)#self.graphics.POS.getTransactionReceipt()
+		self.graphics.POS.completeStuff()
 		receiptText.pack(side="top")
 		#self.itemIDField.delete(0, 'end')
 		self.graphics.liftLayer("main")
