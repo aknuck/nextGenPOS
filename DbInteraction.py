@@ -76,5 +76,11 @@ class DbInteraction:
         with self.connection:
             cursor = self.connection.cursor()
             var1 = self.searchForReturn(transID)
-            var = "UPDATE Trans set isComplete = '" + str(1) + "' where T_ID = '" + str(transID) + "'"
-            cursor.execute(var)
+            if(var1):
+                var = "UPDATE Trans set isComplete = '" + str(1) + "' where T_ID = '" + str(transID) + "'"
+                cursor.execute(var)
+                return True
+            else:
+                print "transaction not found"
+                return False
+            
