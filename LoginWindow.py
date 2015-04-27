@@ -8,6 +8,7 @@ class LoginWindow(Frame):
 
 	def __init__(self,parent,graphics):
 		Frame.__init__(self)
+		self.grid()
 		self.parent = parent
 		self.graphics = graphics
 		#self.color = "#26D4B1"
@@ -24,14 +25,18 @@ class LoginWindow(Frame):
 		#logoPanel.grid(row=1,column=1)
 
 		#buffers
-		buff = Label(self,text="               ")#,bg=self.color,padx=5)
-		buff.grid(row=1,column=0,sticky='w')	
+		# buff = Label(self,text="               ")#,bg=self.color,padx=5)
+		# buff.grid(row=1,column=0,sticky='w')	
 
-		buff2 = Label(self,text="               ")#,bg=self.color,padx=5)
-		buff2.grid(row=2,column=1,sticky='n')
+		# buff2 = Label(self,text="               ")#,bg=self.color,padx=5)
+		# buff2.grid(row=2,column=1,sticky='n')
+		
+		self.grid_columnconfigure (1, weight=1)
+		self.grid_rowconfigure 	  (0, weight=1)
+		self.grid_rowconfigure    (9, weight=1)
 
 		# Enter Username
-		usernameLabel = Label(self, text="username")#, bg=self.color,padx=5)
+		usernameLabel = Label(self, text="Username")#, bg=self.color,padx=5)
 		#usernameLabel = Label(self, text="username", bg=self.color,padx=5)
 		usernameLabel.grid(row=3,column=1,sticky='s')
 		usernameField = Entry(self, width=40)#bd =0, width=40)
@@ -40,7 +45,7 @@ class LoginWindow(Frame):
 		usernameField.bind("<Return>",(lambda event: self.login(usernameField,passwordField)))
 
 		# Enter Password
-		passwordLabel = Label(self, text="password")#, bg=self.color,padx=5)
+		passwordLabel = Label(self, text="Password")#, bg=self.color,padx=5)
 		#passwordLabel = Label(self, text="password", bg=self.color,padx=5)
 		passwordLabel.grid(row=5,column=1,sticky='s')
 		passwordField = Entry(self, show="*", width=40)#bd =0, width=40)
