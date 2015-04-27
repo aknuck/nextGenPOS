@@ -46,7 +46,7 @@ class RentalPaymentWindow(Frame):
 		self.submitButton = Button(self, text="Submit", width=15, command=lambda: self.submit())
 		self.submitButton.grid(row=5,column=0)
 
-		self.cancelButton = Button(self, text="Cance", width=15, command=lambda: self.cancel())
+		self.cancelButton = Button(self, text="Cancel", width=15, command=lambda: self.cancel())
 		self.cancelButton.grid(row=5,column=1)
 	
 

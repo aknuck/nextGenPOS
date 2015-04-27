@@ -1,8 +1,10 @@
 #main menu
 
+
 from Tkinter import *
-#from PIL import ImageTk, Image
 from ttk import *
+from Tkinter import Button
+#from PIL import ImageTk, Image
 
 class MainMenu(Frame):
 
@@ -14,7 +16,10 @@ class MainMenu(Frame):
 		#self.color = '#FFFFFF'
 		Style().configure('green/black.TButton', foreground='black', background='black')
 		Style().configure("Red.TLabel", foreground="red")
-		
+
+		btnWidth = 60
+		btnHeight = 2
+
 		#buffers
 		#buff = Label(self,text="Logged in as "+self.user)#,bg=self.color,padx=5)
 		#buff.grid(row=0,column=0,padx=10,pady=10,columnspan=5,sticky=('n', 's', 'e', 'w'))#,sticky='CENTER')
@@ -22,28 +27,37 @@ class MainMenu(Frame):
 		#buff2 = Label(self,text="               ")#,bg=self.color,padx=5)
 		#buff2.grid(row=0,column=0,rowspan=3,sticky='n')
 
+		self.frame = Frame (self)		
+		self.frame.grid (row=1, column=1)	
+
 		# Add the location to the list button
-		self.adminLoginButton = Button(self, text="*", width=0,style='green/black.TButton',command=lambda: self.adminLogin())
-		self.adminLoginButton.grid(row=0,column=2,sticky='e')
+		self.adminLoginButton = Button(self.frame, text="Admin", bg='light gray', width=10, command=lambda: self.adminLogin())
+		self.adminLoginButton.grid(row=0, column=1, sticky='e')
 
 		# create transaction
-		loginButton = Button(self, text="Create Transaction", width=15, style='green/black.TButton', command=lambda: self.createTransaction())
-		#loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(usernameField, passwordField))
-		loginButton.grid(row=1,column=0,pady=10)
+		self.createTransBtn = Button(self.frame, text="Create Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.createTransaction())
+		self.createTransBtn.grid(row=1, column=0, columnspan=2, pady=10)
 
 		# create transaction
-		loginButton = Button(self, text="Create Rental Transaction", width=15, style='green/black.TButton', command=lambda: self.manageUsers())
-		#loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(usernameField, passwordField))
-		loginButton.grid(row=2,column=0,pady=10)
+		self.createRentalBtn = Button(self.frame, text="Create Rental Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.manageUsers())		
+		self.createRentalBtn.grid(row=2, column=0, columnspan=2, pady=10)
 
 		# create transaction
-		loginButton = Button(self, text="Return", width=15, style='green/black.TButton', command=lambda: self.returnItem())
-		#loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(usernameField, passwordField))
-		loginButton.grid(row=3,column=0,pady=10)
+		self.createReturnBtn = Button(self.frame, text="Return", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.returnItem())		
+		self.createReturnBtn.grid(row=3, column=0, columnspan=2, pady=10)
 
-		self.outputLabel = Label(self,text=" ")
-		self.outputLabel.grid(row=4,column=0,sticky='n')
+		# logout
+		self.logoutBtn = Button(self.frame, text="Log Out", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.logout())		
+		self.logoutBtn.grid(row=4, column=0, columnspan=2, pady=10)
+
+		self.outputLabel = Label(self.frame, text=" ")
+		self.outputLabel.grid(row=5, column=0, columnspan=2, sticky='n')
 		self.outputLabel.config(style="Red.TLabel")
+
+		self.grid_columnconfigure (0, weight=1)
+		self.grid_columnconfigure (2, weight=1)
+		self.grid_rowconfigure 	  (0, weight=1)
+		self.grid_rowconfigure    (2, weight=1)
 
 	def createTransaction(self):
 		self.outputLabel.config(text="")
@@ -63,6 +77,10 @@ class MainMenu(Frame):
 			self.graphics.liftLayer("return")
 		else:
 			self.outputLabel.config(text="requires manager")
+
+	def logout(self):
+		self.graphics.POS.logOut()
+		self.graphics.liftLayer("login")
 
 	def adminLogin(self,event=None):
 		try:
