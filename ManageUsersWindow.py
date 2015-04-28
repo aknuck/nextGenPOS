@@ -4,6 +4,9 @@ from Tkinter import *
 import tkFont
 #from PIL import ImageTk, Image
 from ttk import *
+from Tkinter import Frame
+from Tkinter import Button
+from Tkinter import Label
 import thread
 import Item
 import POS
@@ -14,66 +17,84 @@ class ManageUsersWindow(Frame):
 		Frame.__init__(self)
 		self.parent = parent
 		self.graphics = graphics
-
+		self.items = []
+		self.config(bg=self.graphics.mainColor)
 		self.font = tkFont.Font(family="Courier", size=12)
 
 		#self.font = ('system', 10)
 		Style().configure('green/black.TButton', foreground='black', background='black')
 		Style().configure('white.TLabel', foreground='black', background='white')
 		Style().configure("Red.TLabel", foreground="red")
+		Style().configure("MyStyle.Vertical.TSeparator", background="black")
+
+		self.frame = Frame (self, bg=self.graphics.mainColor)
+		self.frame.grid(row=1, column=1)
 
 		# Add the location to the list button
-		setLocB = Button(self, text="*", width=0,style='green/black.TButton',command=lambda: self.adminLogin())
-		setLocB.grid(row=0,column=4,sticky='e')
+		self.adminLoginButton = Button(self.frame, text="Admin", bg=self.graphics.grey, fg="white", width=self.graphics.btnWidth2, command=lambda: self.adminLogin())
+		self.adminLoginButton.grid(row=0,column=3, sticky='e')
 
 		# Enter item ID
-		itemIDLabel = Label(self, text="Enter Item ID")
-		itemIDLabel.grid(row=1,column=3,sticky='s')
-		self.itemIDField = Entry(self, width=20)
+		itemIDLabel = Label(self.frame, text="Enter Item ID", bg=self.graphics.mainColor)
+		itemIDLabel.grid(row=1,column=3, pady=10, sticky='s')
+		self.itemIDField = Entry(self.frame, width=20)
 		self.itemIDField.grid(row=2,column=3,sticky='n')
-		self.itemIDField.bind("<Return>",(lambda event: self.add(self.itemIDField)))
+		self.itemIDField.bind("<Return>",(lambda event: self.add(self.itemIDField.get())))
 
-		self.outputLabel = Label(self,text=" ")
+		self.outputLabel = Label(self.frame,text=" ", bg=self.graphics.mainColor)
 		self.outputLabel.grid(row=3,column=3,sticky='n')
-		self.outputLabel.config(style="Red.TLabel")
+		self.outputLabel.config(fg="red")
 
 		# Add the location to the list button
-		setLocB = Button(self, text="Add", width=15,style='green/black.TButton',command=lambda: self.add(self.itemIDField))
+		setLocB = Button(self.frame, text="Add", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.add(self.itemIDField.get()))
 		setLocB.grid(row=4,column=3)
 
 		# Add the location to the list button
-		setLocB = Button(self, text="Manual", width=15,style='green/black.TButton', command=lambda: self.manual(self.itemIDField))
+		setLocB = Button(self.frame, text="Manual", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.manual(self.itemIDField))
 		setLocB.grid(row=5,column=3)
 
 		# Add the location to the list button
-		setLocB = Button(self, text="Complete Rental", width=15,style='green/black.TButton', command=lambda: self.complete(self.itemIDField))
+		setLocB = Button(self.frame, text="Complete", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.complete(self.itemIDField))
 		setLocB.grid(row=6,column=3)
 
 		# Add the location to the list button
-		setLocB = Button(self, text="Cancel", width=15,style='green/black.TButton', command=lambda: self.cancel(self.itemIDField))
+		setLocB = Button(self.frame, text="Cancel", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.cancel(self.itemIDField))
 		setLocB.grid(row=7,column=3)
 
-		l = Label(self,text="             ")
+		# Add the location to the list button
+		setLocB = Button(self.frame, text="Save", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.save())
+		setLocB.grid(row=12,column=3)
+
+		# Add the location to the list button
+		setLocB = Button(self.frame, text="Load", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.load())
+		setLocB.grid(row=13,column=3)
+
+		l = Label(self.frame,text="             ", bg=self.graphics.mainColor)
 		l.grid(row=0,column=2,rowspan=8)
 
-		sep = Separator(self,orient=VERTICAL)
+		sep = Separator(self.frame, orient=VERTICAL, style="MyStyle.Vertical.TSeparator")
 		sep.grid(row=0, column=1, rowspan=20, sticky="ns",padx=3)
 
 		# Make and fill listbox
-		self.itemsListBox = Listbox(self, height=24,font=self.font)
+		self.itemsListBox = Listbox(self.frame, height=24,font=self.font)
 		self.itemsListBox.config(width=29)
 		self.itemsListBox.grid(row=0,column=0,rowspan=20,pady=6,padx=8)
 		self.itemsListBox.bind("<BackSpace>",(lambda event: self.remove(self.itemsListBox.curselection())))
 
 		
 		# Change location to the one selected
-		removeLocB = Button(self, text="Remove Item", width=15, command=lambda: self.remove(self.itemsListBox.curselection()))
+		removeLocB = Button(self.frame, text="Remove Item", width=self.graphics.btnWidth1, height=self.graphics.btnHeight1, font=("Helvetica", self.graphics.btnFontHeight1), command=lambda: self.remove(self.itemsListBox.curselection()))
 		removeLocB.grid(row=18,column=3,pady=5,padx=5)
+	
+		self.grid_columnconfigure (0, weight=1)
+		self.grid_columnconfigure (2, weight=1)
+		self.grid_rowconfigure 	  (0, weight=1)
+		self.grid_rowconfigure    (2, weight=1)
 	
 	def add(self,itemID):
 		self.outputLabel.config(text=" ")
-		if itemID.get() != "":
-			item = self.graphics.POS.queryDBForItem(itemID.get())
+		if itemID != "":
+			item = self.graphics.POS.queryDBForItem(itemID)
 			if item != None:
 				self.graphics.POS.addItemToTransaction(item)
 				self.itemsListBox.insert(END,self.textFormatter(item,24))

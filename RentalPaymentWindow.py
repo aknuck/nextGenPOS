@@ -73,7 +73,7 @@ class RentalPaymentWindow(Frame):
 		self.complete()
 
 	def cancel(self):
-		self.graphics.POS.liftLayer("transaction")
+		self.graphics.liftLayer("transaction")
 
 	def credit(self):
 		print "credit"

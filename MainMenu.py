@@ -26,7 +26,7 @@ class MainMenu(Frame):
 		self.frame.grid (row=1, column=1)	
 
 		# Add the location to the list button
-		self.adminLoginButton = Button(self.frame, text="Admin", bg="#818181", fg= 'white', font=("bold", 9), width=10, command=lambda: self.adminLogin())
+		self.adminLoginButton = Button(self.frame, text="Admin", bg=self.graphics.grey, fg= 'white', font=("bold", 9), width=10, command=lambda: self.adminLogin())
 		self.adminLoginButton.grid(row=0, column=1, pady=10, sticky='se')
 
 		# create transaction 
@@ -71,7 +71,7 @@ class MainMenu(Frame):
 		if self.graphics.POS.getCurrEmployee().getEmpType() == "Manager":
 			self.graphics.liftLayer("return")
 		else:
-			self.outputLabel.config(text="requires manager")
+			self.outputLabel.config(text="Requires Manager")
 
 	def logout(self):
 		self.graphics.POS.logOut()

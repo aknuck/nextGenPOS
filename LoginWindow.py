@@ -5,6 +5,7 @@ from Tkinter import *
 from ttk import *
 from Tkinter import Frame
 from Tkinter import Label
+from Tkinter import Button
 
 class LoginWindow(Frame):
 
@@ -47,7 +48,7 @@ class LoginWindow(Frame):
 		self.outputLabel.grid(row=7,column=1, pady=5, sticky='s')
 
 		# Attempt to login
-		self.loginButton = Button(self, text="Enter", width=15, style='green/black.TButton', command=lambda: self.login(self.usernameField, self.passwordField))
+		self.loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(self.usernameField, self.passwordField))
 		#loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(usernameField, passwordField))
 		self.loginButton.grid(row=8,column=1,pady=5)
 
