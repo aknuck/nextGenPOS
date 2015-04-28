@@ -212,6 +212,8 @@ class POS:
 		def addItemToTransaction(self,item):
 			self.currentTransaction.addItem(item)
 			self.dbObj.decreaseQuantity(item.getID(), 1)
+		def addManualItemToTransaction(self,item):
+			self.currentTransaction.addItem(item)
 		def addToInventory(self, item):
 			self.dbObj.addItem(item, 1)
 		def removeFromInventory(self, item):
