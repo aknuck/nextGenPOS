@@ -70,7 +70,7 @@ class PaymentWindow(Frame):
 
 	def submit(self):
 		self.creditCardNumber.config(text="f")
-		self.name.config(text="f", bg=self.graphics.mainColor,)
+		self.name.config(text="f")
 		if self.selected == "credit":
 			number = self.creditCardNumber.get()
 			name = self.name.get()

@@ -8,18 +8,17 @@ class DbInteraction:
     def __init__(self):
         self.connection = sql.connect('DB.db')
 
-    def addItem(self, item):
+    def addItem(self, item, store):
         with self.connection:
             cursor = self.connection.cursor()    
             cursor.execute('SELECT MAX(I_ID) from Item')
             i = cursor.fetchone()
             print 
             j = int(i[0])+ 1
-            cursor.execute('INSERT into Item (I_ID, Name, Price, SaleValue, Store_ID) values (\'' + str(j) + '\',\'' + item.getName() + '\',\'' + str(item.getPrice()) + '\',\'' + str(item.getSaleValue()) + '\',\'' + str(1) + '\')')
-            var = "INSERT into Inventory values('" + str(j) + "','900')"
+            cursor.execute('INSERT into Item (I_ID, Name, Price, SaleValue, Store_ID) values (\'' + str(j) + '\',\'' + item.getName() + '\',\'' + str(item.getPrice()) + '\',\'' + str(item.getSaleValue()) + '\',\'' + str(store) + '\')')
+            var = "INSERT into Inventory values('" + str(j) + "','0')"
             print var
             cursor.execute(var) 
-            return j
 
     def removeItem(self, item):
         with self.connection:
