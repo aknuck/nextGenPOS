@@ -215,7 +215,7 @@ class POS:
 		def addToInventory(self, item):
 			self.dbObj.addItem(item, 1)
 		def removeFromInventory(self, item):
-			self.dbObj.removeItem(item, 0)
+			self.dbObj.removeItem(item, 0))
 		#def increaseQuantity(self):
 		#	self.dbObj.increaseQuantity(1,1)
 		#def decreaseQuantity(self):
@@ -224,7 +224,7 @@ class POS:
 			return self.currentTransaction.getReceipt()	
 
 		def completeStuff(self):
-			self.dbObj.newTransaction(self.currentTransaction.getID(),self.__currEmployee.getId(), self.currentTransaction.getType(), self.currentTransaction.getCurrentTotal())
+			self.dbObj.newTransaction(self.currentTransaction.getID(),self.__currEmployee.getId(), self.currentTransaction.getType(), self.currentTransaction.getCurrentTotal(), self.currentTransaction.payment.getType())
 
 		def setPayment(self,payment):
 			self.currentTransaction.setPayment(payment)
