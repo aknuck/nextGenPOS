@@ -4,6 +4,9 @@ from Tkinter import *
 import tkFont
 #from PIL import ImageTk, Image
 from ttk import *
+from Tkinter import Frame
+from Tkinter import Button
+from Tkinter import Label
 from Payment import *
 class PaymentWindow(Frame):
 
@@ -109,7 +112,7 @@ class PaymentWindow(Frame):
 		receiptWindow = Toplevel(self)
 		receiptWindow.configure(bg=color)
 		#Should be 7.35 x width
-		receiptWindow.geometry(str(int(8.35*width))+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)))+"+150+50")
+		receiptWindow.geometry(str(int(9.35*width))+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)))+"+150+50")
 
 		# Text Field Object, used in the submission function
 		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), style='white.TLabel',font=self.font)#self.graphics.POS.getTransactionReceipt()

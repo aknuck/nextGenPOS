@@ -117,7 +117,7 @@ class ManageUsersWindow(Frame):
 			self.outputLabel.config(text=" ")
 			print "adding manually"
 
-			color = "#e8e8e8"
+			color = self.graphics.mainColor 
 
 			# Create progress bar pop-up window
 			self.adminWindow = Toplevel(self)
@@ -125,15 +125,15 @@ class ManageUsersWindow(Frame):
 			self.adminWindow.geometry("270x165+550+150")
 
 			#Title Label
-			titleLabel = Label(self.adminWindow, text="Enter Item Information")
+			titleLabel = Label(self.adminWindow, text="Enter Item Information", bg=color)
 			titleLabel.grid(row=0,column=0,columnspan=2,sticky='ns',padx=6,pady=5)
 
 			#Manual Enter Output
-			self.manualEntryOutput = Label(self.adminWindow, text="",style="Red.TLabel")
+			self.manualEntryOutput = Label(self.adminWindow, text="",fg='red', bg=color)
 			self.manualEntryOutput.grid(row=1,column=0,columnspan=2,sticky='ns',padx=6)
 
 			#Item Name Label
-			itemNameLabel = Label(self.adminWindow, text="Item Name")
+			itemNameLabel = Label(self.adminWindow, text="Item Name", bg=color)
 			itemNameLabel.grid(row=2,column=0,sticky='w',padx=6)
 
 			#Item Name Field
@@ -142,7 +142,7 @@ class ManageUsersWindow(Frame):
 			itemNameField.bind("<Return>",(lambda event: self.manualAdd(itemNameField,itemPriceField,itemSaleField)))
 
 			#Item Price Label
-			itemPriceLabel = Label(self.adminWindow, text="Item Price")
+			itemPriceLabel = Label(self.adminWindow, text="Item Price", bg=color)
 			itemPriceLabel.grid(row=3,column=0,sticky='w',padx=6)
 
 			#Item Price Field
@@ -151,7 +151,7 @@ class ManageUsersWindow(Frame):
 			itemPriceField.bind("<Return>",(lambda event: self.manualAdd(itemNameField,itemPriceField,itemSaleField)))
 
 			#Item Sale Label
-			itemSaleLabel = Label(self.adminWindow, text="Percent Sale")
+			itemSaleLabel = Label(self.adminWindow, text="Percent Sale", bg=color)
 			itemSaleLabel.grid(row=4,column=0,sticky='w',padx=6)
 
 			#Item Sale Field
