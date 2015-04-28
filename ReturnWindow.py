@@ -4,9 +4,6 @@ from Tkinter import *
 import tkFont
 #from PIL import ImageTk, Image
 from ttk import *
-from Tkinter import Frame
-from Tkinter import Button
-from Tkinter import Label
 import thread
 import Item
 import POS
@@ -17,10 +14,7 @@ class ReturnWindow(Frame):
 		Frame.__init__(self)
 		self.parent = parent
 		self.graphics = graphics
-		self.config(bg=self.graphics.mainColor)
 		self.items = []
-		self.frame = Frame(self, bg = self.graphics.mainColor)
-		self.frame.grid(row=1, column=1)
 
 		self.font = tkFont.Font(family="Courier", size=12)
 
@@ -30,39 +24,34 @@ class ReturnWindow(Frame):
 		Style().configure("Red.TLabel", foreground="red")
 
 		# Add the location to the list button
-		self.adminLoginButton = Button(self.frame, text="Admin", bg=self.graphics.grey, fg="white", width=self.graphics.btnWidth2, command=lambda: self.adminLogin())
+		self.adminLoginButton = Button(self, text="*", width=0,style='green/black.TButton',command=lambda: self.adminLogin())
 		self.adminLoginButton.grid(row=0,column=3,sticky='e')
 
 		# Enter item ID
-		itemIDLabel = Label(self.frame, text="Enter Transaction ID", bg = self.graphics.mainColor)
-		itemIDLabel.grid(row=1,column=1,sticky='s', pady=10)
-		self.transactionIDField = Entry(self.frame, width=20)
+		itemIDLabel = Label(self, text="Enter Transaction ID")
+		itemIDLabel.grid(row=1,column=1,sticky='s')
+		self.transactionIDField = Entry(self, width=20)
 		self.transactionIDField.grid(row=2,column=1,sticky='n')
 		self.transactionIDField.bind("<Return>",(lambda event: self.completeReturn(self.itemIDField.get(),self.transactionIDField.get())))
 
 		# Enter item ID
-		itemIDLabel = Label(self.frame, text="Enter Item ID", bg = self.graphics.mainColor)
-		itemIDLabel.grid(row=3,column=1,pady=10, sticky='s')
-		self.itemIDField = Entry(self.frame, width=20)
+		itemIDLabel = Label(self, text="Enter Item ID")
+		itemIDLabel.grid(row=3,column=1,sticky='s')
+		self.itemIDField = Entry(self, width=20)
 		self.itemIDField.grid(row=4,column=1,sticky='n')
 		self.itemIDField.bind("<Return>",(lambda event: self.completeReturn(self.itemIDField.get(),self.transactionIDField.get())))
 
-		self.outputLabel = Label(self.frame,text=" ", bg = self.graphics.mainColor)
-		self.outputLabel.grid(row=5,column=1, pady=2, sticky='n')
-		self.outputLabel.config(fg='red')
+		self.outputLabel = Label(self,text=" ")
+		self.outputLabel.grid(row=5,column=1,sticky='n')
+		self.outputLabel.config(style="Red.TLabel")
 
 		# Add the location to the list button
-		setLocB = Button(self.frame, text="Return", width=15, command=lambda: self.completeReturn(self.itemIDField.get(),self.transactionIDField.get()))
+		setLocB = Button(self, text="Return", width=15,style='green/black.TButton',command=lambda: self.completeReturn(self.itemIDField.get(),self.transactionIDField.get()))
 		setLocB.grid(row=6,column=1)
 
 		# Add the location to the list button
-		setLocB = Button(self.frame, text="Cancel", width=15, command=lambda: self.cancel(self.itemIDField))
-		setLocB.grid(row=7,column=1, pady=10,)
-
-		self.grid_columnconfigure (0, weight=1)
-		self.grid_columnconfigure (2, weight=1)
-		self.grid_rowconfigure 	  (0, weight=1)
-		self.grid_rowconfigure    (2, weight=1)
+		setLocB = Button(self, text="Cancel", width=15,style='green/black.TButton', command=lambda: self.cancel(self.itemIDField))
+		setLocB.grid(row=7,column=1)
 	
 	def completeReturn(self,itemID,transID):
 		if self.graphics.POS.getCurrEmployee() != None:
@@ -71,9 +60,23 @@ class ReturnWindow(Frame):
                                 if self.graphics.POS.dbObj.searchForReturn(transID):
 					item = self.graphics.POS.queryDBForItem(itemID)
 					if item != None:
-						self.outputLabel.config(text="Item Returned")
-						self.graphics.POS.dbObj.rentalReturn(transID, itemID)
-						self.graphics.liftLayer("main")
+						itemCheck = self.graphics.POS.dbObj.checkRentalExistence(transID, itemID)
+						if(itemCheck == 1):
+							self.outputLabel.config(text="Rental item returned.")
+							self.graphics.POS.dbObj.processReturn(transID, itemID)
+							#self.graphics.liftLayer("main")
+						elif(itemCheck == 2):
+							self.outputLabel.config(text="Rental item was already returned in a previous transaction.")
+						elif(itemCheck == 3):
+							self.outputLabel.config(text="Item return processed.")
+							self.graphics.POS.dbObj.processReturn(transID, itemID)							
+						elif(itemCheck == 4):
+							#print 4
+							self.outputLabel.config(text="Item either never existed for this transaction, else it has already been returned.")
+						elif(itemCheck == 5):
+							self.outputLabel.config(text="Rental item never existed for this transaction.")
+						else:
+							self.outputLabel.config(text="Error, I don't know where you are, but I will find you, and I will kill you.")							
 					else:
 						self.outputLabel.config(text="Item Doesn't Exist")
 				else:

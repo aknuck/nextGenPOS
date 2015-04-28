@@ -86,7 +86,7 @@ class DbInteraction:
                 return True
             else:
                 return False
-    def rentalReturn(self, trans, item):
+    def processReturn(self, trans, item):
         with self.connection:
             cursor = self.connection.cursor()
             var1 = self.searchForReturn(trans)
@@ -99,12 +99,12 @@ class DbInteraction:
 #                return False
             
             if(var1):
-                var2 = "SELECT isComplete from Trans where T_ID = '" + str(trans) + "'"
-                cursor.execute(var2)
-                merp = cursor.fetchone()
-                isComp = (int) (merp[0])
+                # var2 = "SELECT isComplete from Trans where T_ID = '" + str(trans) + "'"
+                # cursor.execute(var2)
+                # merp = cursor.fetchone()
+                # isComp = (int) (merp[0])
 
-                if(isComp == 0):
+                if(self.checkTransType(trans, item)):
 
                     var = "UPDATE TransItemList set isReturned = '" + str(1) + "' where T_ID = '" + str(trans) + "' AND I_ID = '" + str(item) + "'"
                     print var
@@ -117,7 +117,39 @@ class DbInteraction:
             else:
                 print "transaction not found"
                 return False            
-            
+    def checkRentalExistence(self, transID, itemID):
+        with self.connection:
+            cursor = self.connection.cursor()
+            var = "SELECT isReturned from TransItemList where T_ID = '" + str(transID) + "' AND I_ID = '" + str(itemID) + "'"
+            print var
+            cursor.execute(var)
+            ladada = cursor.fetchone()
+            if(ladada is not None):
+                good = ladada[0]
+            if(self.checkTransType(transID, itemID)):    
+                if(ladada is not None):
+                    if(good == 0):
+                        return 1
+                    else:
+                        return 2
+                else:
+                    return 5
+            else:
+                if(ladada is not None):
+                    return 3
+                else:
+                    return 4
+    def checkTransType(self, transID, itemID):
+        with self.connection:
+            cursor = self.connection.cursor()            
+            var2 = "SELECT isComplete from Trans where T_ID = '" + str(transID) + "'"
+            cursor.execute(var2)
+            merp = cursor.fetchone()
+            isComp = (int) (merp[0])        
+            if(isComp == 0):
+                return True
+            else:
+                return False
  #   def returnItem(self, transID, itemID):
  #       with self.connection:
  #           cursor = self.connection.cursor()
