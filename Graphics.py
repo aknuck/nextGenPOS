@@ -15,7 +15,14 @@ class Graphics(Frame):
 		self.POS = POS().instance
 		self.parent = parent
 
+		# Thematic settings
 		self.mainColor = "#99ccff"
+		self.btnWidth1 = 20
+		self.btnWidth2 = 10
+		self.btnWidth3 = 40
+		self.btnHeight1 = 1
+		self.btnFontHeight1 = 9
+		self.grey = "#818181"
 
 		self.mainMenu = MainMenu(parent,self)
 		self.loginWindow = LoginWindow(parent,self)
@@ -69,7 +76,7 @@ class Graphics(Frame):
 def main():
 
 	root = Tk()
-	root.geometry("480x355+300+300")
+	root.geometry("680x555+300+20")
 	app = Graphics(root)
 	root.mainloop()
 

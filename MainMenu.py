@@ -19,30 +19,30 @@ class MainMenu(Frame):
 		Style().configure('green/black.TButton', foreground='black', background='black')
 		Style().configure("Red.TLabel", foreground="red")
 
-		btnWidth = 60
+		btnWidth = self.graphics.btnWidth3
 		btnHeight = 2
 
 		self.frame = Frame (self, bg = self.graphics.mainColor)		
 		self.frame.grid (row=1, column=1)	
 
 		# Add the location to the list button
-		self.adminLoginButton = Button(self.frame, text="Admin", bg='light gray', width=10, command=lambda: self.adminLogin())
+		self.adminLoginButton = Button(self.frame, text="Admin", bg="#818181", fg= 'white', font=("bold", 9), width=10, command=lambda: self.adminLogin())
 		self.adminLoginButton.grid(row=0, column=1, pady=10, sticky='se')
 
 		# create transaction 
-		self.createTransBtn = Button(self.frame, text="Create Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.createTransaction())
+		self.createTransBtn = Button(self.frame, text="Create Transaction", width=btnWidth, height=btnHeight, command=lambda: self.createTransaction())
 		self.createTransBtn.grid(row=1, column=0, columnspan=2, pady=10, sticky='s')
 
 		# create transaction
-		self.createRentalBtn = Button(self.frame, text="Create Rental Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.manageUsers())		
+		self.createRentalBtn = Button(self.frame, text="Create Rental Transaction", width=btnWidth, height=btnHeight, command=lambda: self.manageUsers())		
 		self.createRentalBtn.grid(row=2, column=0, columnspan=2, pady=10, sticky='s')
 
 		# create transaction
-		self.createReturnBtn = Button(self.frame, text="Return", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.returnItem())		
+		self.createReturnBtn = Button(self.frame, text="Return", width=btnWidth, height=btnHeight, command=lambda: self.returnItem())		
 		self.createReturnBtn.grid(row=3, column=0, columnspan=2, pady=10, sticky='s')
 
 		# logout
-		self.logoutBtn = Button(self.frame, text="Log Out", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.logout())		
+		self.logoutBtn = Button(self.frame, text="Log Out", width=btnWidth, height=btnHeight, command=lambda: self.logout())		
 		self.logoutBtn.grid(row=4, column=0, columnspan=2, pady=10, sticky='s')
 
 		self.outputLabel = Label(self.frame, text=" ")
@@ -82,16 +82,15 @@ class MainMenu(Frame):
 		color = "#D1D1D1"
 
 		# Create progress bar pop-up window
-		self.adminWindow = Toplevel(self)
+		self.adminWindow = Toplevel(self, bg=self.graphics.mainColor)
 		#self.adminWindow.configure(bg=color)
-		self.adminWindow.color = "D1D1D1"
 		self.adminWindow.geometry("480x220+550+150")
 
-		self.adminWindow.adminFrame = Frame (self.adminWindow)		
+		self.adminWindow.adminFrame = Frame (self.adminWindow, bg=self.graphics.mainColor)		
 		self.adminWindow.adminFrame.grid (row=1, column=1)
 
 		# Enter Username
-		usernameLabel = Label(self.adminWindow.adminFrame, text="Username")#, bg=self.color,padx=5)
+		usernameLabel = Label(self.adminWindow.adminFrame, text="Username", bg=self.graphics.mainColor)#, bg=self.color,padx=5)
 		#usernameLabel = Label(self, text="username", bg=self.color,padx=5)
 		usernameLabel.grid(row=0,column=0,sticky='s')
 		usernameField = Entry(self.adminWindow.adminFrame, width=40)#bd =0, width=40)
@@ -101,7 +100,7 @@ class MainMenu(Frame):
 		usernameField.focus()
 
 		# Enter Password
-		passwordLabel = Label(self.adminWindow.adminFrame, text="Password")#, bg=self.color,padx=5)
+		passwordLabel = Label(self.adminWindow.adminFrame, text="Password", bg=self.graphics.mainColor)#, bg=self.color,padx=5)
 		#passwordLabel = Label(self, text="password", bg=self.color,padx=5)
 		passwordLabel.grid(row=2,column=0,sticky='s')
 		passwordField = Entry(self.adminWindow.adminFrame, show="*", width=40)#bd =0, width=40)
@@ -110,11 +109,11 @@ class MainMenu(Frame):
 		passwordField.bind("<Return>",(lambda event: self.login(usernameField,passwordField)))
 
 		#output
-		self.adminOutputLabel = Label(self.adminWindow.adminFrame,text="",style="Red.TLabel")#,bg=self.color,padx=5)
+		self.adminOutputLabel = Label(self.adminWindow.adminFrame,text="",fg="red", bg=self.graphics.mainColor)#,bg=self.color,padx=5)
 		self.adminOutputLabel.grid(row=4,column=0,sticky='s')
 
 		# Attempt to login
-		loginButton = Button(self.adminWindow.adminFrame, text="Login", width=15, bg="light gray", command=lambda: self.login(usernameField, passwordField))
+		loginButton = Button(self.adminWindow.adminFrame, text="Login", width=15, command=lambda: self.login(usernameField, passwordField))
 		#loginButton = Button(self, text="Enter", width=15, command=lambda: self.login(usernameField, passwordField))
 		loginButton.grid(row=5,column=0,pady=10)
 
