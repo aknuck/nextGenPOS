@@ -89,7 +89,7 @@ class DbInteraction:
     def rentalReturn(self, trans, item):
         with self.connection:
             cursor = self.connection.cursor()
-            var1 = self.searchForReturn(transID)
+            var1 = self.searchForReturn(trans)
 #            if(var1):
 #                var = "UPDATE Trans set isComplete = '" + str(1) + "' where T_ID = '" + str(transID) + "'"
 #                cursor.execute(var)
@@ -99,9 +99,20 @@ class DbInteraction:
 #                return False
             
             if(var1):
-                var = "UPDATE TransItemList set isReturned = '" + str(1) + "' where T_ID = '" + str(trans.getID()) + "' & I_ID = '" + str(item.getID()) + "'"
-                print var
-                cursor.execute(var)
+                var2 = "SELECT isComplete from Trans where T_ID = '" + str(trans) + "'"
+                cursor.execute(var2)
+                merp = cursor.fetchone()
+                isComp = (int) (merp[0])
+
+                if(isComp == 0):
+
+                    var = "UPDATE TransItemList set isReturned = '" + str(1) + "' where T_ID = '" + str(trans) + "' AND I_ID = '" + str(item) + "'"
+                    print var
+                    cursor.execute(var)
+                else:
+                    var = "DELETE from TransItemList where T_ID = '" + str(trans) + "' AND I_ID = '" + str(item) + "'"
+                    print var
+                    cursor.execute(var)
                 return True
             else:
                 print "transaction not found"

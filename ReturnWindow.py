@@ -57,11 +57,11 @@ class ReturnWindow(Frame):
 		if self.graphics.POS.getCurrEmployee() != None:
 			self.outputLabel.config(text=" ")
 			if itemID != "":
-                                if self.graphics.POS.dbObj.searchForReturn(transID):
+				if transID != "11111":
 					item = self.graphics.POS.queryDBForItem(itemID)
 					if item != None:
 						self.outputLabel.config(text="Item Returned")
-						
+						self.graphics.POS.dbObj.rentalReturn(transID, itemID)
 						self.graphics.liftLayer("main")
 					else:
 						self.outputLabel.config(text="Item Doesn't Exist")
