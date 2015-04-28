@@ -57,7 +57,7 @@ class ReturnWindow(Frame):
 		if self.graphics.POS.getCurrEmployee() != None:
 			self.outputLabel.config(text=" ")
 			if itemID != "":
-				if transID != "11111":
+                                if self.graphics.POS.dbObj.searchForReturn(transID):
 					item = self.graphics.POS.queryDBForItem(itemID)
 					if item != None:
 						itemCheck = self.graphics.POS.dbObj.checkRentalExistence(transID, itemID)
