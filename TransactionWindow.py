@@ -185,6 +185,7 @@ class TransactionWindow(Frame):
 				item = Item.Item(-1,name.get(),float(price.get()),0)
 			else:
 				item = Item.Item(-1,name.get(),float(price.get()),float(sale.get())/100.00)
+			item.ID = self.graphics.POS.dbObj.addItem(item)
 			self.graphics.POS.addItemToTransaction(item)
 			self.itemsListBox.insert(END,self.textFormatter(item,24))
 			self.adminWindow.destroy()
