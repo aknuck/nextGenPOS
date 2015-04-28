@@ -2,7 +2,6 @@
 
 from Tkinter import *
 import tkFont
-#from PIL import ImageTk, Image
 from ttk import *
 from Payment import *
 class RentalPaymentWindow(Frame):
