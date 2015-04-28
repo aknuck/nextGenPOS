@@ -4,6 +4,8 @@
 from Tkinter import *
 from ttk import *
 from Tkinter import Button
+from Tkinter import Frame
+from Tkinter import Label
 #from PIL import ImageTk, Image
 
 class MainMenu(Frame):
@@ -12,7 +14,7 @@ class MainMenu(Frame):
 		Frame.__init__(self)
 		self.parent = parent
 		self.graphics = graphics
-		self.color = '#D1D1D1'
+		self.config (bg = self.graphics.mainColor)
 		#self.color = '#FFFFFF'
 		Style().configure('green/black.TButton', foreground='black', background='black')
 		Style().configure("Red.TLabel", foreground="red")
@@ -20,32 +22,32 @@ class MainMenu(Frame):
 		btnWidth = 60
 		btnHeight = 2
 
-		self.frame = Frame (self)		
+		self.frame = Frame (self, bg = self.graphics.mainColor)		
 		self.frame.grid (row=1, column=1)	
 
 		# Add the location to the list button
 		self.adminLoginButton = Button(self.frame, text="Admin", bg='light gray', width=10, command=lambda: self.adminLogin())
-		self.adminLoginButton.grid(row=0, column=1, sticky='e')
+		self.adminLoginButton.grid(row=0, column=1, pady=10, sticky='se')
 
 		# create transaction 
 		self.createTransBtn = Button(self.frame, text="Create Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.createTransaction())
-		self.createTransBtn.grid(row=1, column=0, columnspan=2, pady=10)
+		self.createTransBtn.grid(row=1, column=0, columnspan=2, pady=10, sticky='s')
 
 		# create transaction
 		self.createRentalBtn = Button(self.frame, text="Create Rental Transaction", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.manageUsers())		
-		self.createRentalBtn.grid(row=2, column=0, columnspan=2, pady=10)
+		self.createRentalBtn.grid(row=2, column=0, columnspan=2, pady=10, sticky='s')
 
 		# create transaction
 		self.createReturnBtn = Button(self.frame, text="Return", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.returnItem())		
-		self.createReturnBtn.grid(row=3, column=0, columnspan=2, pady=10)
+		self.createReturnBtn.grid(row=3, column=0, columnspan=2, pady=10, sticky='s')
 
 		# logout
 		self.logoutBtn = Button(self.frame, text="Log Out", bg='light gray', width=btnWidth, height=btnHeight, command=lambda: self.logout())		
-		self.logoutBtn.grid(row=4, column=0, columnspan=2, pady=10)
+		self.logoutBtn.grid(row=4, column=0, columnspan=2, pady=10, sticky='s')
 
 		self.outputLabel = Label(self.frame, text=" ")
 		self.outputLabel.grid(row=5, column=0, columnspan=2, sticky='n')
-		self.outputLabel.config(style="Red.TLabel")
+		self.outputLabel.config(fg='red', bg=self.graphics.mainColor)
 
 		self.grid_columnconfigure (0, weight=1)
 		self.grid_columnconfigure (2, weight=1)
