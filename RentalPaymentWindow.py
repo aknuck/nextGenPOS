@@ -92,7 +92,7 @@ class RentalPaymentWindow(Frame):
 		receiptWindow.configure(bg=color)
 		#Should be 7.35 x width
 		receiptWindow.geometry(str(int(8.35*width))+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)))+"+150+50")
-
+		self.graphics.POS.completeStuff()
 		# Text Field Object, used in the submission function
 		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), style='white.TLabel',font=self.font)#self.graphics.POS.getTransactionReceipt()
 		receiptText.pack(side="top")

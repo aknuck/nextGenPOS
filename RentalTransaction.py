@@ -138,3 +138,9 @@ Cashier: '''+self.cashier.getName()+'''
 	#change payment method. really just calls getPayment again, but that works for now
 	def changePayment(self):
 		self.getPayment(self)
+
+	def getID(self):
+		return self.transactionID
+
+	def getType(self):
+		return 'rental'
