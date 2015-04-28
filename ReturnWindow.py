@@ -61,7 +61,7 @@ class ReturnWindow(Frame):
 					item = self.graphics.POS.queryDBForItem(itemID)
 					if item != None:
 						self.outputLabel.config(text="Item Returned")
-						
+						self.graphics.POS.dbObj.rentalReturn(transID, itemID)
 						self.graphics.liftLayer("main")
 					else:
 						self.outputLabel.config(text="Item Doesn't Exist")

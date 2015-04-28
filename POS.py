@@ -224,13 +224,13 @@ class POS:
 			return self.currentTransaction.getReceipt()	
 
 		def completeStuff(self):
-			self.dbObj.newTransaction(self.currentTransaction.getID(),self.__currEmployee.getId(), self.currentTransaction.getType(), self.currentTransaction.getCurrentTotal(), self.currentTransaction.payment.getType())
+			self.dbObj.newTransaction(self.currentTransaction,self.__currEmployee.getId(), self.currentTransaction.getType(), self.currentTransaction.getCurrentTotal(), self.currentTransaction.payment.getType())
 
 		def setPayment(self,payment):
 			self.currentTransaction.setPayment(payment)
 		def getCurrentTransaction(self):
 			return self.currentTransaction
-		
+
 		def getTax(self):
 			return self.__store.getTax()
 		

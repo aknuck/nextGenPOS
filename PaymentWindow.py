@@ -61,7 +61,7 @@ class PaymentWindow(Frame):
 #		self.B2 = Button(self, text = "DISSAPEAR???", command = self.goodbye)
 #		self.B2.pack()
 	
-	def cancel():
+	def cancel(self):
 		self.graphics.POS.liftLayer("transaction")
 
 	def submit(self):
