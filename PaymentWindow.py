@@ -7,6 +7,7 @@ from ttk import *
 from Tkinter import Frame
 from Tkinter import Button
 from Tkinter import Label
+from Tkinter import Radiobutton
 from Payment import *
 class PaymentWindow(Frame):
 
@@ -14,24 +15,24 @@ class PaymentWindow(Frame):
 		Frame.__init__(self)
 		self.parent = parent
 		self.graphics = graphics
-		self.color = '#D1D1D1'
+		self.config(bg=self.graphics.mainColor)
 		self.selected = ""
 		self.font = tkFont.Font(family="Courier", size=12)
 		#self.color = '#FFFFFF'
 
 		#Title Label
-		self.outputLabel = Label(self, text="")
+		self.outputLabel = Label(self, text="", bg=self.graphics.mainColor)
 		self.outputLabel.grid(row=0,column=0,sticky='ns',padx=6,pady=5)
 
 		v = IntVar()
 
-		self.b1 = Radiobutton(self, text="Cash", variable=v, value=1,command=lambda: self.cash())
+		self.b1 = Radiobutton(self, text="Cash", variable=v, value=1, bg=self.graphics.mainColor, command=lambda: self.cash())
 		self.b1.grid(row=1,column=0)
-		self.b2 = Radiobutton(self, text="Credit", variable=v, value=2,command=lambda: self.credit())
+		self.b2 = Radiobutton(self, text="Credit", variable=v, value=2, bg=self.graphics.mainColor, command=lambda: self.credit())
 		self.b2.grid(row=1,column=1)
 
 		#Title Label
-		self.creditCardNumberLabel = Label(self, text="Credit Card Number")
+		self.creditCardNumberLabel = Label(self, text="Credit Card Number", bg=self.graphics.mainColor)
 		self.creditCardNumberLabel.grid(row=2,column=0,sticky='ns',padx=6,pady=5)
 
 		#Manual Enter Output
@@ -39,7 +40,7 @@ class PaymentWindow(Frame):
 		self.creditCardNumber.grid(row=2,column=1,sticky='ns',padx=6)
 
 		#Title Label
-		self.nameLabel = Label(self, text="Enter Name")
+		self.nameLabel = Label(self, text="Enter Name", bg=self.graphics.mainColor)
 		self.nameLabel.grid(row=3,column=0,sticky='ns',padx=6,pady=5)
 
 		#Manual Enter Output
@@ -49,7 +50,7 @@ class PaymentWindow(Frame):
 		self.submitButton = Button(self, text="Submit", width=15, command=lambda: self.submit())
 		self.submitButton.grid(row=4,column=0)
 
-		self.cancelButton = Button(self, text="Cance", width=15, command=lambda: self.cancel())
+		self.cancelButton = Button(self, text="Cancel", width=15, command=lambda: self.cancel())
 		self.cancelButton.grid(row=4,column=1)
 	
 
@@ -69,7 +70,7 @@ class PaymentWindow(Frame):
 
 	def submit(self):
 		self.creditCardNumber.config(text="f")
-		self.name.config(text="f")
+		self.name.config(text="f", bg=self.graphics.mainColor,)
 		if self.selected == "credit":
 			number = self.creditCardNumber.get()
 			name = self.name.get()
@@ -84,17 +85,17 @@ class PaymentWindow(Frame):
 	def credit(self):
 		print "credit"
 		self.selected = "credit"
-		self.creditCardNumberLabel.config(state="active")
+		self.creditCardNumberLabel.config(state="active", bg=self.graphics.mainColor)
 		self.creditCardNumber.config(state="active")
-		self.nameLabel.config(state="active")
-		self.name.config(state="active")
+		self.nameLabel.config(state="active", bg=self.graphics.mainColor)
+		self.name.config(state="active", bg=self.graphics.mainColor)
 
 	def cash(self):
 		print "cash"
 		self.selected = "cash"
-		self.creditCardNumberLabel.config(state="disabled")
+		self.creditCardNumberLabel.config(state="disabled", bg=self.graphics.mainColor)
 		self.creditCardNumber.config(state="disabled")
-		self.nameLabel.config(state="disabled")
+		self.nameLabel.config(state="disabled", bg=self.graphics.mainColor)
 		self.name.config(state="disabled")	
 
 	def complete(self):
@@ -112,10 +113,10 @@ class PaymentWindow(Frame):
 		receiptWindow = Toplevel(self)
 		receiptWindow.configure(bg=color)
 		#Should be 7.35 x width
-		receiptWindow.geometry(str(int(9.35*width))+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)))+"+150+50")
+		receiptWindow.geometry("500"+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)+100))+"+150+50")
 
 		# Text Field Object, used in the submission function
-		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), style='white.TLabel',font=self.font)#self.graphics.POS.getTransactionReceipt()
+		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), bg='white', font=self.font)#self.graphics.POS.getTransactionReceipt()
 		self.graphics.POS.completeStuff()
 		receiptText.pack(side="top")
 		#self.itemIDField.delete(0, 'end')

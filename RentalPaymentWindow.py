@@ -3,6 +3,9 @@
 from Tkinter import *
 import tkFont
 from ttk import *
+from Tkinter import Frame
+from Tkinter import Button
+from Tkinter import Label
 from Payment import *
 class RentalPaymentWindow(Frame):
 
@@ -10,17 +13,17 @@ class RentalPaymentWindow(Frame):
 		Frame.__init__(self)
 		self.parent = parent
 		self.graphics = graphics
-		self.color = '#D1D1D1'
+		self.config(bg=self.graphics.mainColor)
 		self.selected = ""
 		self.font = tkFont.Font(family="Courier", size=12)
 		#self.color = '#FFFFFF'
 
 		#Title Label
-		self.outputLabel = Label(self, text="")
+		self.outputLabel = Label(self, text="", bg=self.graphics.mainColor)
 		self.outputLabel.grid(row=0,column=0,sticky='ns',padx=6,pady=5)
 
 		#Title Label
-		self.creditCardNumberLabel = Label(self, text="Credit Card Number")
+		self.creditCardNumberLabel = Label(self, text="Credit Card Number", bg=self.graphics.mainColor)
 		self.creditCardNumberLabel.grid(row=2,column=0,sticky='ns',padx=6,pady=5)
 
 		#Manual Enter Output
@@ -28,14 +31,14 @@ class RentalPaymentWindow(Frame):
 		self.creditCardNumber.grid(row=2,column=1,sticky='ns',padx=6)
 
 		#Title Label
-		self.nameLabel = Label(self, text="Enter Name")
+		self.nameLabel = Label(self, text="Enter Name", bg=self.graphics.mainColor)
 		self.nameLabel.grid(row=3,column=0,sticky='ns',padx=6,pady=5)
 
 		#Manual Enter Output
 		self.name = Entry(self,width=20)
 		self.name.grid(row=3,column=1,sticky='ns',padx=6)
 
-		self.addressLabel = Label(self, text="Enter Address")
+		self.addressLabel = Label(self, text="Enter Address", bg=self.graphics.mainColor)
 		self.addressLabel.grid(row=4,column=0,sticky='ns',padx=6,pady=5)
 
 		#Manual Enter Output
@@ -93,10 +96,10 @@ class RentalPaymentWindow(Frame):
 		receiptWindow = Toplevel(self)
 		receiptWindow.configure(bg=color)
 		#Should be 7.35 x width
-		receiptWindow.geometry(str(int(8.35*width))+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)))+"+150+50")
+		receiptWindow.geometry("500"+"x"+str(int(13.05*(len(self.graphics.POS.getTransactionReceipt().split('\n'))+5)+100))+"+150+50")
 		self.graphics.POS.completeStuff()
 		# Text Field Object, used in the submission function
-		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), style='white.TLabel',font=self.font)#self.graphics.POS.getTransactionReceipt()
+		receiptText = Label(receiptWindow, text=self.graphics.POS.getTransactionReceipt(), bg='white',font=self.font)#self.graphics.POS.getTransactionReceipt()
 		receiptText.pack(side="top")
 		#self.itemIDField.delete(0, 'end')
 		self.graphics.liftLayer("main")
