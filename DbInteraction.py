@@ -52,7 +52,7 @@ class DbInteraction:
             dd = cursor.fetchone()
             payID = (int) (dd[0]) + 1
             if (tType == 'rental'):
-                var = "INSERT into Trans values('" + str(transID) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(0) + "')"
+                var = "INSERT into Trans values('" + str(transID) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(0) + "')" #the 0 marks incomplete
             else:
                 var = "INSERT into Trans values('" + str(transID) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(1) + "')"                
             var2 = "INSERT into Payment values('" + str(payID) + "','" + pType + "','" + str(amount) + "')"

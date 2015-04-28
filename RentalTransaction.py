@@ -23,14 +23,14 @@ class RentalTransaction:
 		self.store = store
 		self.taxRate = store.getTax() #tax rate may change based on state, set to 0 if for item without tax (e.g. food)
 		self.runningTotal = 0.00
-		self.payment = None #set later in the transaction, after being called by POS with the payment object being passed
+		self.payment = "rental" #set later in the transaction, after being called by POS with the payment object being passed
 		
 
 	#adds an item to the transaction
 	def addItem(self,item):
 		if self.cashier != None:
 			self.items.append(item)
-			print "Added Item"
+			print "Added Item (Rental)"
 			self.runningTotal += item.getSalePrice()
 			print "Current total: $"+str("{0:.2f}".format(self.getCurrentTotal()))
 			return True
@@ -138,3 +138,9 @@ Cashier: '''+self.cashier.getName()+'''
 	#change payment method. really just calls getPayment again, but that works for now
 	def changePayment(self):
 		self.getPayment(self)
+
+	def getID(self):
+		return self.transactionID
+
+	def getType(self):
+		return 'rental'
