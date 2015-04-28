@@ -66,11 +66,11 @@ class PaymentWindow(Frame):
 #		self.B2.pack()
 	
 	def cancel(self):
-		self.graphics.POS.liftLayer("transaction")
+		self.graphics.liftLayer("transaction")
 
 	def submit(self):
 		self.creditCardNumber.config(text="f")
-		self.name.config(text="f", bg=self.graphics.mainColor,)
+		self.name.config(text="f")
 		if self.selected == "credit":
 			number = self.creditCardNumber.get()
 			name = self.name.get()
@@ -88,7 +88,7 @@ class PaymentWindow(Frame):
 		self.creditCardNumberLabel.config(state="active", bg=self.graphics.mainColor)
 		self.creditCardNumber.config(state="active")
 		self.nameLabel.config(state="active", bg=self.graphics.mainColor)
-		self.name.config(state="active", bg=self.graphics.mainColor)
+		self.name.config(state="active")
 
 	def cash(self):
 		print "cash"
