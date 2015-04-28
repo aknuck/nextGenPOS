@@ -43,7 +43,7 @@ class DbInteraction:
             newQuant = quant[0] - quantity
             cursor.execute('UPDATE Inventory set quantity = \''+str(newQuant)+'\' where I_ID = \'' +str(itemID)+'\'')
 
-    def newTransaction(self, transID, empID, tType, amount, pType):
+    def newTransaction(self, trans, empID, tType, amount, pType):
         with self.connection:
             timev = time.strftime('%Y-%m-%d %H:%M:%S')
             cursor = self.connection.cursor()
@@ -52,13 +52,27 @@ class DbInteraction:
             dd = cursor.fetchone()
             payID = (int) (dd[0]) + 1
             if (tType == 'rental'):
-                var = "INSERT into Trans values('" + str(transID) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(0) + "')" #the 0 marks incomplete
+                var = "INSERT into Trans values('" + str(trans.getID()) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(0) + "')" #the 0 marks incomplete
             else:
-                var = "INSERT into Trans values('" + str(transID) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(1) + "')"                
+                var = "INSERT into Trans values('" + str(trans.getID()) + "','" + timev + "','" + str(1) + "','" + str(empID) + "','" + str(payID) + "','" + str(0.15) + "','" + str(1) + "')"                
+            
             var2 = "INSERT into Payment values('" + str(payID) + "','" + pType + "','" + str(amount) + "')"
             print var
             cursor.execute(var)
             cursor.execute(var2)
+
+            items = trans.getItems()
+            print len(items)
+            if(tType == 'rental'): 
+                for x in range(0, len(items)):
+                    var = "INSERT into TransItemList values('" + str(trans.getID()) + "','" + str(items[x].getID()) + "','" + str(0) +"')"
+                    print var
+                    cursor.execute(var)
+            else:
+                for x in range(0, len(items)):
+                    var = "INSERT into TransItemList values('" + str(trans.getID()) + "','" + str(items[x].getID()) + "','" + str(1) +"')"
+                    print var
+                    cursor.execute(var)                    
 
     def searchForReturn(self, transID):
         with self.connection:
@@ -72,15 +86,28 @@ class DbInteraction:
                 return True
             else:
                 return False
-    def rentalReturn(self, transID):
+    def rentalReturn(self, trans, item):
         with self.connection:
             cursor = self.connection.cursor()
             var1 = self.searchForReturn(transID)
+#            if(var1):
+#                var = "UPDATE Trans set isComplete = '" + str(1) + "' where T_ID = '" + str(transID) + "'"
+#                cursor.execute(var)
+#                return True
+#            else:
+#                print "transaction not found"
+#                return False
+            
             if(var1):
-                var = "UPDATE Trans set isComplete = '" + str(1) + "' where T_ID = '" + str(transID) + "'"
+                var = "UPDATE TransItemList set isReturned = '" + str(1) + "' where T_ID = '" + str(trans.getID()) + "' & I_ID = '" + str(item.getID()) + "'"
+                print var
                 cursor.execute(var)
                 return True
             else:
                 print "transaction not found"
-                return False
+                return False            
             
+ #   def returnItem(self, transID, itemID):
+ #       with self.connection:
+ #           cursor = self.connection.cursor()
+ #           var = "DELETE from TransItemList where  "'"
