@@ -15,7 +15,8 @@ class Graphics(Frame):
 		self.POS = POS().instance
 		self.parent = parent
 
-		
+		self.mainColor = "#99ccff"
+
 		self.mainMenu = MainMenu(parent,self)
 		self.loginWindow = LoginWindow(parent,self)
 		self.transactionWindow = TransactionWindow(parent,self)
@@ -68,10 +69,6 @@ class Graphics(Frame):
 def main():
 
 	root = Tk()
-	#mycolor = '#26D4B1'
-	mycolor = '#D1D1D1'
-	#mycolor = '#FFFFFF'
-	root.configure(bg=mycolor)
 	root.geometry("480x355+300+300")
 	app = Graphics(root)
 	root.mainloop()
